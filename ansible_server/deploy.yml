@@ -1,0 +1,37 @@
+- name: Install dependencies
+  hosts: win
+  tasks:
+    - name: Install Python3.9
+      ansible.windows.win_shell: |
+        $stable_version = "3.9.0"
+        try
+        {
+            $python_version = python --version
+            for ($i = 0; $i -lt $stable_version.Split(".").Length; $i++) {
+                if ( $python_version.Split(".")[$i] -lt $stable_version.Split(".")[$i] ) {
+                    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                    Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.9.12/python-3.9.12-amd64.exe" -OutFile "c:/python-3.9.12-amd64.exe"
+                    c:/python-3.9.12-amd64.exe /quiet InstallAllUsers=0 PrependPath=1 Include_pip=1
+                    break
+                }
+            }
+        }
+        catch
+        {
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+            Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.9.12/python-3.9.12-amd64.exe" -OutFile "c:/python-3.9.12-amd64.exe"
+            c:/python-3.9.12-amd64.exe /quiet InstallAllUsers=0 PrependPath=1 Include_pip=1
+        }
+
+    - name: Install pipenv python package
+      ansible.windows.win_shell: pip install pipenv
+
+    - name: Copy Project
+      ansible.windows.win_copy:
+        src: ../../../pssetools
+        dest: C:\
+
+    - name: Pipenv install
+      ansible.windows.win_shell: pipenv install --skip-lock
+      args:
+        chdir: 'C:\pssetools'

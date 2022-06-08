@@ -1,0 +1,9 @@
+- name: Run tests
+  hosts: win
+  tasks:
+    - name: Run tests
+      ansible.windows.win_shell: pipenv run python -m unittest
+      args:
+        chdir: 'C:\pssetools'
+      register: out
+    - debug: msg="{{ out.stdout }}"

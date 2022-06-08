@@ -1,0 +1,15 @@
+# If you wish to run a task at 9am on a day you still need to specify the date on which the trigger is activated, you can set any date even ones in the past.
+- name: Scheduler task
+  hosts: win
+  tasks:
+    - name: Create scheduled task to run a process
+      win_scheduled_task:
+        name: CronShedule
+        username: SYSTEM
+        actions:
+        - path: PowerShell.exe
+          arguments: |
+            pipenv run python -m pssetools C:\pssetools\sample_config.json
+        triggers:
+        - type: daily
+          start_boundary: '2017-10-09T04:00:00'

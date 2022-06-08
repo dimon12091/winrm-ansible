@@ -1,0 +1,7 @@
+- name: Run the tool manually
+  hosts: win
+  tasks:
+    - name: Run pssetools
+      ansible.windows.win_shell: pipenv run python -m pssetools sample_config.json
+      args:
+        chdir: 'C:\pssetools'
