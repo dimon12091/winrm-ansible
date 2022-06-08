@@ -2,7 +2,7 @@
 Add-Type -AssemblyName 'System.Web'
 
 # Create Ansible user
-$ansibleRunnerUsername = 'ansiblerunner'
+$ansibleRunnerUsername = 'ansibletestuser'
 $password = "Password123"
 $ansibleRunnerPassword = (ConvertTo-SecureString -String $password -AsPlainText -Force)
 if (-not (Get-LocalUser -Name $ansibleRunnerUsername -ErrorAction Ignore)) {
@@ -32,7 +32,7 @@ $null = New-ItemProperty @newItemParams
 $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $ansibleRunnerUsername, $ansibleRunnerPassword
 
 # Find the cert thumbprint for the client certificate created on the Ansible host
-$ansibleCert = Get-ChildItem -Path 'Cert:\LocalMachine\Root' | Where-Object {$_.Subject -eq 'CN=ansiblerunner'}
+$ansibleCert = Get-ChildItem -Path 'Cert:\LocalMachine\Root' | Where-Object {$_.Subject -eq 'CN=ansibletestuser'}
 
 $params = @{
 	Path = 'WSMan:\localhost\ClientCertificate'
