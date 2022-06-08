@@ -1,10 +1,10 @@
 [win]
-192.168.108.42
+192.168.108.13
 [win:vars]
-ansible_user=ansiblerunner
+ansible_user=ansibletestuser
 ansible_connection=winrm
-ansible_winrm_cert_pem=./client_cert.pem
-ansible_winrm_cert_key_pem=./client_key.pem
+ansible_winrm_cert_pem=./cert.pem
+ansible_winrm_cert_key_pem=./cert_key.pem
 ansible_winrm_transport=certificate
 ansible_port=5986
 ansible_winrm_scheme=https
